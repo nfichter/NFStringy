@@ -42,6 +42,22 @@ char * nfstrncat(char *dest, char *source, int n) {
   dest[startingPos+constN] = 0;
   return dest;
 }
+
+int strcmp(char *s1, char *s2) {
+  if (nfstrlen(s1) < nfstrlen(s2)) {
+    len = s1;
+  } else {
+    len = s2;
+  }
+  lenCounter = len;
+  while (lenCounter) {
+    if (s1[lenCounter] != s2[lenCounter]) {
+      return s1[lenCounter]-s2[lenCounter];
+    }
+    lenCounter--;
+  }
+  return 0;
+}
  
 int main() {
   //strlen test - working
@@ -56,4 +72,5 @@ int main() {
   printf("\n");
   char s3[20] = "Hello there";
   printf("s3: %s\ns3 after ncat of s, n = 3: %s\n",s3,nfstrncat(s3,s,3));
+  //strcmp test - to be written
 }
