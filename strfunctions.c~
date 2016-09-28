@@ -1,0 +1,16 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int nfstrlen(char *input) {
+  int len = 0;
+  while (*input) {
+    input++;
+    len++;
+  }
+  return len;
+}
+
+int main() {
+  char s[] = "Hello";
+  printf("s: %s\nstrlen(s): %d\n",s,nfstrlen(s));
+}
