@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int nfstrlen(char *input) {
   int len = 0;
@@ -59,6 +60,18 @@ int nfstrcmp(char *s1, char *s2) {
   }
   return 0;
 }
+
+char * nfstrchr(char *s, char c) {
+  int len = nfstrlen(s);
+  int lenCounter = len;
+  while (lenCounter) {
+    if (s[len-lenCounter] == c) {
+      return s+len-lenCounter;
+    }
+    lenCounter--;
+  }
+  return NULL;
+}
  
 int main() {
   //strlen test - working
@@ -69,18 +82,28 @@ int main() {
   //strcpy test - working
   printf("\n===strcpy===\n");
   char s2[10];
-  printf("s: %s\ns2 after copy: %s\n",s,nfstrcpy(s2,s));
+  printf("s before copy: %s\n",s);
+  printf("s2 before copy: %s\n",s2);
+  printf("s2 after copy: %s\n",nfstrcpy(s2,s));
 
   //strncat test - working
   printf("\n===strncat===\n");
   char s3[20] = "Hello there";
-  printf("s3: %s\ns3 after ncat of s, n = 3: %s\n",s3,nfstrncat(s3,s,3));
+  printf("s3: %s\n",s3);
+  printf("s3 after ncat of s, n = 3: %s\n",nfstrncat(s3,s,3));
 
-  //strcmp test - to be written
+  //strcmp test - working
   printf("\n===strcmp===\n");
   char s4[] = "Goodbye";
   char s5[] = "Ok.";
-  printf("%s compared to %s: %d\n",s,s,nfstrcmp(s,s));
-  printf("%s compared to %s: %d\n",s,s4,nfstrcmp(s,s4));
-  printf("%s compared to %s: %d\n",s4,s5,nfstrcmp(s4,s5));
+  printf("%s compared to %s: %d (expecting %d)\n",s,s,nfstrcmp(s,s),strcmp(s,s));
+  printf("%s compared to %s: %d (expecting %d)\n",s,s4,nfstrcmp(s,s4),strcmp(s,s4));
+  printf("%s compared to %s: %d (expecting %d)\n",s4,s5,nfstrcmp(s4,s5),strcmp(s4,s5));
+
+  //strchr test - working
+  printf("\n===strchr===\n");
+  printf("First occurrence of 'o' in %s: %s\n", s4, strchr(s4,'o'));
+  printf("First occurrence of 'a' in %s: %s\n", s, strchr(s,'a'));
+
+  //
 }
