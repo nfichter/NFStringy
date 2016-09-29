@@ -71,12 +71,18 @@ int nfstrcmp(char *s1, char *s2) {
   }
   int lenCounter = len;
   while (lenCounter) {
-    if (s1[lenCounter] != s2[lenCounter]) {
+    if (s1[len-lenCounter] != s2[len-lenCounter]) {
       return s1[len-lenCounter]-s2[len-lenCounter];
     }
     lenCounter--;
   }
-  return 0;
+  if (nfstrlen(s1) == nfstrlen(s2)) {
+    return 0;
+  } else if (nfstrlen(s1) > nfstrlen(s2)) {
+    return s1[nfstrlen(s1)-1];
+  } else {
+    return 0-s2[nfstrlen(s2)-1];
+  }
 }
 
 char * nfstrchr(char *s, char c) {
@@ -149,9 +155,13 @@ int main() {
   printf("\n===strcmp===\n");
   char s4[] = "Goodbye";
   char s5[] = "Ok.";
+  char s11[] = "ab";
+  char s12[] = "abc";
   printf("%s compared to %s: %d (expecting %d)\n",s,s,nfstrcmp(s,s),strcmp(s,s));
   printf("%s compared to %s: %d (expecting %d)\n",s,s4,nfstrcmp(s,s4),strcmp(s,s4));
   printf("%s compared to %s: %d (expecting %d)\n",s4,s5,nfstrcmp(s4,s5),strcmp(s4,s5));
+  printf("%s compared to %s: %d (expecting %d)\n",s11,s12,nfstrcmp(s11,s12),strcmp(s11,s12));
+  printf("%s compared to %s: %d (expecting %d)\n",s12,s11,nfstrcmp(s12,s11),strcmp(s12,s11));
 
   //strchr test - working
   printf("\n===strchr===\n");
