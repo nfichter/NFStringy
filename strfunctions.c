@@ -18,22 +18,40 @@ char * nfstrcpy(char *dest, char *source) {
     dest[len-lenCounter] = source[len-lenCounter];
     lenCounter--;
   }
+  dest[len] = 0;
   return dest;
 }
 
-/*
 char * nfstrncpy(char *dest, char *source, int n) {
-
+  if (n < 0) {
+    return dest;
+  }
+  int len = n;
+  int lenCounter = len;
+  while (lenCounter) {
+    dest[len-lenCounter] = source[len-lenCounter];
+    lenCounter--;
+  }
+  dest[len] = 0;
+  return dest;
 }
-*/
 
-/*
 char * nfstrcat(char *dest, char *source) {
-
+  int startingPos = nfstrlen(dest);
+  int len = nfstrlen(source);
+  int lenCounter = len;
+  while (lenCounter) {
+    dest[startingPos+len-lenCounter] = source[len-lenCounter];
+    lenCounter--;
+  }
+  dest[startingPos+len] = 0;
+  return dest;
 }
-*/
 
 char * nfstrncat(char *dest, char *source, int n) {
+  if (n < 0) {
+    return dest;
+  }
   int startingPos = nfstrlen(dest);
   int constN = n;
   while (n) {
@@ -72,6 +90,24 @@ char * nfstrchr(char *s, char c) {
   }
   return NULL;
 }
+
+char * nfstrstr(char *s1, char *s2) {
+  if (nfstrchr(s1,s2[0]) == NULL) {
+    return NULL;
+  }
+  char *rest = nfstrchr(s1,s2[0]);
+  int lenOf2 = nfstrlen(s2);
+  char s2cp[lenOf2];
+  char *s2cpy = s2cp;
+  char restcp[nfstrlen(rest)];
+  char *restcpy = restcp;
+  nfstrcpy(s2cpy,s2);
+  nfstrncpy(restcpy,rest,lenOf2);
+  if (strcmp(restcpy,s2cpy)) {
+    return NULL;
+  }
+  return rest;
+}
  
 int main() {
   //strlen test - working
@@ -84,13 +120,30 @@ int main() {
   char s2[10];
   printf("s before copy: %s\n",s);
   printf("s2 before copy: %s\n",s2);
-  printf("s2 after copy: %s\n",nfstrcpy(s2,s));
+  printf("s2 after copy of s: %s\n",nfstrcpy(s2,s));
+
+  //strncpy test - working
+  printf("\n===strncpy===\n");
+  char s8[5];
+  char s9[] = "testingtesting123";
+  printf("s before copy: %s\n",s);
+  printf("s8 before copy: %s\n",s8);
+  printf("s8 after copy of s, n = 2: %s\n",nfstrncpy(s8,s,2));
+  printf("s9 before copy: %s\n",s9);
+  printf("s8 after copy of s9, n = -1: %s\n",nfstrncpy(s8,s9,-1));
+
+  //strcat test - working
+  printf("\n===strcat===\n");
+  char s10[] = "testingtesting456";
+  printf("s10: %s\n",s10);
+  printf("s10 after cat of s9: %s\n",nfstrcat(s10,s9));
 
   //strncat test - working
   printf("\n===strncat===\n");
   char s3[20] = "Hello there";
   printf("s3: %s\n",s3);
   printf("s3 after ncat of s, n = 3: %s\n",nfstrncat(s3,s,3));
+  printf("s3 after ncat of s, n = -1: %s\n",nfstrncat(s3,s,-1));
 
   //strcmp test - working
   printf("\n===strcmp===\n");
@@ -102,8 +155,13 @@ int main() {
 
   //strchr test - working
   printf("\n===strchr===\n");
-  printf("First occurrence of 'o' in %s: %s\n", s4, strchr(s4,'o'));
-  printf("First occurrence of 'a' in %s: %s\n", s, strchr(s,'a'));
+  printf("First occurrence of 'o' in %s: %s (expecting %s)\n", s4, nfstrchr(s4,'o'), strchr(s4,'o'));
+  printf("First occurrence of 'a' in %s: %s (expecting %s)\n", s, nfstrchr(s,'a'), strchr(s,'a'));
 
-  //
+  //strstr test - working
+  printf("\n===strstr===\n");
+  char s6[] = "Helloelelel";
+  char s7[] = "el";
+  printf("First occurrence of %s in %s: %s (expecting %s)\n", s7, s6, nfstrstr(s6,s7), strstr(s6,s7));
+  printf("First occurrence of %s in %s: %s (expecting %s)\n", s5, s6, nfstrstr(s6,s5), strstr(s6,s5));
 }
