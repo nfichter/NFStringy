@@ -174,4 +174,6 @@ int main() {
   char s7[] = "el";
   printf("First occurrence of %s in %s: %s (expecting %s)\n", s7, s6, nfstrstr(s6,s7), strstr(s6,s7));
   printf("First occurrence of %s in %s: %s (expecting %s)\n", s5, s6, nfstrstr(s6,s5), strstr(s6,s5));
+
+  return 0;
 }
